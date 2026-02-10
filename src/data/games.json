@@ -1,0 +1,12 @@
+[
+  {
+    "slug": "escape-tsunami",
+    "title": "Escape Tsunami",
+    "description": "Убегай от гигантского цунами! Уклоняйся от препятствий, собирай бонусы и постарайся выжить как можно дольше в этой захватывающей аркаде.",
+    "coverUrl": "/games/escape-tsunami/cover.jpg",
+    "previewVideoUrl": "/games/escape-tsunami/preview.webm",
+    "buildFolder": "/games/escape-tsunami/Build",
+    "buildName": "escape-tsunami",
+    "isPublished": true
+  }
+]
