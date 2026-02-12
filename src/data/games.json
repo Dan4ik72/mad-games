@@ -1,12 +1,42 @@
 [
   {
     "slug": "escape-tsunami",
-    "title": "Escape Tsunami",
+    "title": "Escape Tsunami For Brainrot",
     "description": "Убегай от гигантского цунами! Уклоняйся от препятствий, собирай бонусы и постарайся выжить как можно дольше в этой захватывающей аркаде.",
     "coverUrl": "/games/escape-tsunami/cover.jpg",
     "previewVideoUrl": "/games/escape-tsunami/preview.webm",
     "buildFolder": "/games/escape-tsunami/Build",
     "buildName": "escape-tsunami",
+    "isPublished": true
+  },
+  {
+    "slug": "lucky-block",
+    "title": "Break a Lucky Block",
+    "description": "Открывай лаки-блоки и получай безумные предметы! Испытай удачу в этой весёлой игре в стиле Roblox. Роблокс лаки блок онлайн бесплатно!",
+    "coverUrl": "/games/lucky-block/cover.png",
+    "previewVideoUrl": "/games/lucky-block/preview.webm",
+    "buildFolder": "/games/lucky-block/Build",
+    "buildName": "lucky-block[8]-mirraSDK[5.1.2]",
+    "isPublished": true
+  },
+  {
+    "slug": "blind-shot",
+    "title": "Blind Shot",
+    "description": "Стреляй вслепую и попадай в цель! Уникальный шутер с элементами Roblox. Играй бесплатно онлайн — роблокс стрелялка без скачивания!",
+    "coverUrl": "/games/blind-shot/cover.png",
+    "previewVideoUrl": "/games/blind-shot/preview.webm",
+    "buildFolder": "/games/blind-shot/Build",
+    "buildName": "blind-shot-roblox[9]-mirraSDK[5.0.18]",
+    "isPublished": true
+  },
+  {
+    "slug": "break-your-bones",
+    "title": "Break Your Bones",
+    "description": "Управляй рэгдоллом и ломай кости! Выполняй безумные трюки и получай максимальный урон в этом весёлом физическом симуляторе. Играй онлайн как в Roblox — бесплатно и без скачивания. Роблокс-стиль ragdoll игра!",
+    "coverUrl": "/games/break-your-bones/cover.png",
+    "previewVideoUrl": "/games/break-your-bones/preview.webm",
+    "buildFolder": "/games/break-your-bones/Build",
+    "buildName": "break-your-bones[1]-mirraSDK[5.0.17]",
     "isPublished": true
   }
 ]

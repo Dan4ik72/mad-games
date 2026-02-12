@@ -1,0 +1,21 @@
+{
+    "name": "MAD GAMES — Играй онлайн бесплатно",
+    "short_name": "MAD GAMES",
+    "description": "Каталог бесплатных онлайн игр. Играй прямо в браузере без установки!",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0C0D14",
+    "theme_color": "#6842FF",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ]
+}

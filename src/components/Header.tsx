@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Header() {
@@ -27,18 +28,14 @@ export default function Header() {
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-3 group">
                     {/* Logo icon */}
-                    <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-accent-pink flex items-center justify-center shadow-lg group-hover:shadow-accent/30 transition-shadow duration-300">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            className="w-5 h-5"
-                            stroke="white"
-                            strokeWidth={2.5}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <polygon points="6,3 20,12 6,21" fill="white" stroke="none" />
-                        </svg>
+                    <div className="relative w-13 h-13 rounded-xl overflow-hidden shadow-lg group-hover:shadow-accent/30 transition-shadow duration-300">
+                        <Image
+                            src="/logo.png"
+                            alt="MAD GAMES"
+                            width={52}
+                            height={52}
+                            className="w-full h-full object-cover"
+                        />
                     </div>
                     {/* Logo text */}
                     <span className="font-heading text-xl sm:text-2xl font-black tracking-tight gradient-text">

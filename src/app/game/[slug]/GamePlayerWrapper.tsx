@@ -15,6 +15,7 @@ export default function GamePlayerWrapper({ game }: GamePlayerWrapperProps) {
             title={game.title}
             coverUrl={game.coverUrl}
             previewVideoUrl={game.previewVideoUrl}
+            slug={game.slug}
         />
     );
 }

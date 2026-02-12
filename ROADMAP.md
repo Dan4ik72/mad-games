@@ -293,10 +293,10 @@ mad-games-site/
 
 ### 📋 TODO (Итерация 2 — осталось)
 
-- [ ] **Деплой на GitHub Pages**
-  - [ ] GitHub Actions workflow (`.github/workflows/deploy.yml`)
-  - [ ] CNAME файл для `mad-games.ru`
-  - [ ] Проверить static export на GitHub Pages
+- [x] **Деплой на GitHub Pages**
+  - [x] GitHub Actions workflow (`.github/workflows/deploy.yml`)
+  - [x] CNAME файл для `mad-games.ru`
+  - [x] Проверить static export на GitHub Pages
 - [ ] **РСЯ**
   - [ ] Зарегистрировать площадку на partner.yandex.ru
   - [ ] Получить RTB-блоки (blockId)

@@ -26,9 +26,20 @@ export async function generateMetadata({
     }
 
     return {
-        title: `${game.title} — Играй онлайн | MAD GAMES`,
+        title: `${game.title} — Играй онлайн`,
         description: game.description,
+        alternates: {
+            canonical: `/game/${slug}`,
+        },
         openGraph: {
+            title: `${game.title} — MAD GAMES`,
+            description: game.description,
+            url: `/game/${slug}`,
+            images: [game.coverUrl],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
             title: `${game.title} — MAD GAMES`,
             description: game.description,
             images: [game.coverUrl],
@@ -46,8 +57,39 @@ export default async function GamePage({ params }: GamePageProps) {
 
     const similarGames = getSimilarGames(slug);
 
+    // Schema.org JSON-LD for VideoGame
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        name: game.title,
+        description: game.description,
+        url: `https://mad-games.ru/game/${game.slug}`,
+        image: `https://mad-games.ru${game.coverUrl}`,
+        playMode: "SinglePlayer",
+        gamePlatform: "Web Browser",
+        applicationCategory: "Game",
+        operatingSystem: "Any",
+        offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "RUB",
+            availability: "https://schema.org/InStock",
+        },
+        publisher: {
+            "@type": "Organization",
+            name: "MAD GAMES",
+            url: "https://mad-games.ru",
+        },
+    };
+
     return (
         <div className="pt-20 pb-16">
+            {/* Schema.org JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Game player section */}
                 <div className="flex justify-center mb-8">

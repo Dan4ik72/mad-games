@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import Image from "next/image";
+import { reachGoal } from "@/components/YandexMetrika";
 
 interface GamePlayerProps {
     buildFolder: string;
@@ -10,6 +11,7 @@ interface GamePlayerProps {
     title: string;
     coverUrl: string;
     previewVideoUrl?: string;
+    slug?: string;
 }
 
 export default function GamePlayer({
@@ -18,6 +20,7 @@ export default function GamePlayer({
     title,
     coverUrl,
     previewVideoUrl,
+    slug,
 }: GamePlayerProps) {
     const [started, setStarted] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -64,7 +67,10 @@ export default function GamePlayer({
                         className="relative aspect-video cursor-pointer"
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        onClick={() => setStarted(true)}
+                        onClick={() => {
+                            setStarted(true);
+                            reachGoal("play_game", { slug: slug || title });
+                        }}
                     >
                         {/* Blurred background video */}
                         {previewVideoUrl && (
