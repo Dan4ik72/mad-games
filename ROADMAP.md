@@ -301,13 +301,13 @@ mad-games-site/
   - [ ] Зарегистрировать площадку на partner.yandex.ru
   - [ ] Получить RTB-блоки (blockId)
   - [ ] Заменить placeholder-ы на реальные баннеры
-- [ ] **Контент**
-  - [ ] Добавить ещё 1–2 Unity игры для каталога
+- [x] **Контент**
+  - [x] Добавить ещё 1–2 Unity игры для каталога
   - [ ] Уточнить описания и SEO-мету для каждой игры
-- [ ] **Оптимизация**
-  - [ ] Open Graph / Twitter Card мета-теги
-  - [ ] `metadataBase` в layout.tsx
-  - [ ] Favicon и PWA manifest
+- [x] **Оптимизация**
+  - [x] Open Graph / Twitter Card мета-теги
+  - [x] `metadataBase` в layout.tsx
+  - [x] Favicon и PWA manifest
 
 ---
 
