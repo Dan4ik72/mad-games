@@ -21,6 +21,21 @@ const staticPages = [
     { loc: "/", priority: "1.0", changefreq: "weekly" },
 ];
 
+// Категории (уникальные из игр)
+const categorySlugs = [
+    ...new Set(
+        games
+            .filter((g) => g.isPublished)
+            .flatMap((g) => g.categories)
+    ),
+];
+
+const categoryPages = categorySlugs.map((slug) => ({
+    loc: `/category/${slug}`,
+    priority: "0.9",
+    changefreq: "weekly",
+}));
+
 // Динамические страницы из игр
 const gamePages = games
     .filter((g) => g.isPublished)
@@ -30,7 +45,7 @@ const gamePages = games
         changefreq: "monthly",
     }));
 
-const allPages = [...staticPages, ...gamePages];
+const allPages = [...staticPages, ...categoryPages, ...gamePages];
 
 const today = new Date().toISOString().split("T")[0];
 

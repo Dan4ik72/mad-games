@@ -12,6 +12,7 @@ interface GamePlayerProps {
     coverUrl: string;
     previewVideoUrl?: string;
     slug?: string;
+    orientation?: "landscape" | "portrait";
 }
 
 export default function GamePlayer({
@@ -21,11 +22,14 @@ export default function GamePlayer({
     coverUrl,
     previewVideoUrl,
     slug,
+    orientation,
 }: GamePlayerProps) {
     const [started, setStarted] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [showRotateOverlay, setShowRotateOverlay] = useState(false);
 
     const { unityProvider, loadingProgression, isLoaded, requestFullscreen } =
         useUnityContext({
@@ -37,9 +41,65 @@ export default function GamePlayer({
 
     const progressPercent = Math.round(loadingProgression * 100);
 
-    const handleFullscreen = useCallback(() => {
-        requestFullscreen(true);
+    // Check orientation for overlay
+    useEffect(() => {
+        if (!started || !orientation || !isLoaded) return;
+
+        const checkOrientation = () => {
+            // Only relevant for landscape games on mobile/tablet
+            const isLandscape = window.innerWidth > window.innerHeight;
+            // Show overlay if game is landscape but screen is portrait
+            setShowRotateOverlay(orientation === "landscape" && !isLandscape);
+        };
+
+        checkOrientation();
+        window.addEventListener("resize", checkOrientation);
+        return () => window.removeEventListener("resize", checkOrientation);
+    }, [started, orientation, isLoaded]);
+
+    const toggleFullscreen = useCallback(() => {
+        if (!containerRef.current) return;
+
+        const elem = containerRef.current as any;
+        const requestFS =
+            elem.requestFullscreen ||
+            elem.webkitRequestFullscreen ||
+            elem.mozRequestFullScreen ||
+            elem.msRequestFullscreen;
+
+        if (requestFS) {
+            requestFS.call(elem).catch((e: any) => {
+                console.error("Fullscreen failed:", e);
+                // Fallback to Unity's if container fails (rare)
+                try {
+                    requestFullscreen(true);
+                } catch (unityErr) {
+                    console.error("Unity fallback failed:", unityErr);
+                }
+            });
+        }
     }, [requestFullscreen]);
+
+    const handlePlayClick = () => {
+        setStarted(true);
+        reachGoal("play_game", { slug: slug || title });
+
+        // Mobile check
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
+
+        if (isMobile) {
+            // Auto-fullscreen on mobile with a slight delay to ensure DOM is ready
+            setTimeout(() => {
+                toggleFullscreen();
+
+                // Orientation lock attempt
+                if (orientation && screen.orientation && "lock" in screen.orientation) {
+                    // @ts-expect-error - lock is not fully typed
+                    screen.orientation.lock(orientation).catch(() => { });
+                }
+            }, 100);
+        }
+    };
 
     // Auto-play blurred background video
     useEffect(() => {
@@ -60,17 +120,44 @@ export default function GamePlayer({
     return (
         <div className="w-full">
             {/* Player container */}
-            <div className="relative rounded-2xl overflow-hidden border border-border bg-card">
+            <div
+                ref={containerRef}
+                className={`relative overflow-hidden bg-card group/player ${isFullscreen
+                    ? "fixed inset-0 z-50 w-screen h-screen border-none rounded-none flex items-center justify-center bg-black"
+                    : "rounded-2xl border border-border"
+                    }`}
+            >
+                {/* Rotate Overlay */}
+                {showRotateOverlay && (
+                    <div className="absolute inset-0 z-50 bg-black/90 flex flex-col items-center justify-center text-center p-6 animate-fade-in">
+                        <div className="w-16 h-16 mb-4 animate-spin-slow">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="white"
+                                strokeWidth={2}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                            </svg>
+                        </div>
+                        <h3 className="text-white text-xl font-bold mb-2">
+                            Поверните устройство
+                        </h3>
+                        <p className="text-gray-300">
+                            Для этой игры требуется горизонтальная ориентация
+                        </p>
+                    </div>
+                )}
+
                 {/* Pre-start state: blurred video bg + cover on hover + Play button */}
                 {!started && (
                     <div
                         className="relative aspect-video cursor-pointer"
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
-                        onClick={() => {
-                            setStarted(true);
-                            reachGoal("play_game", { slug: slug || title });
-                        }}
+                        onClick={handlePlayClick}
                     >
                         {/* Blurred background video */}
                         {previewVideoUrl && (
@@ -137,7 +224,7 @@ export default function GamePlayer({
                         {/* Unity canvas */}
                         <Unity
                             unityProvider={unityProvider}
-                            className="w-full aspect-video block"
+                            className={`block ${isFullscreen ? "w-full h-full" : "w-full aspect-video"}`}
                             tabIndex={1}
                             style={{
                                 background: "var(--background)",
@@ -147,8 +234,8 @@ export default function GamePlayer({
                         {/* Fullscreen button */}
                         {isLoaded && !isFullscreen && (
                             <button
-                                onClick={handleFullscreen}
-                                className="absolute bottom-4 right-4 z-10 w-10 h-10 rounded-xl glass flex items-center justify-center text-text-muted hover:text-text hover:bg-accent/20 transition-all duration-200 group"
+                                onClick={toggleFullscreen}
+                                className="absolute bottom-4 right-4 z-40 w-10 h-10 rounded-xl glass flex items-center justify-center text-text-muted hover:text-text hover:bg-accent/20 transition-all duration-200 group opacity-0 group-hover/player:opacity-100 md:opacity-100"
                                 title="На весь экран"
                             >
                                 <svg

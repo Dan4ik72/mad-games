@@ -44,14 +44,8 @@ export default function Header() {
                 </Link>
 
                 {/* Future: navigation, search, etc. */}
-                <nav className="hidden sm:flex items-center gap-6">
-                    <Link
-                        href="/"
-                        className="text-sm text-text-muted hover:text-text transition-colors duration-200"
-                    >
-                        Каталог
-                    </Link>
-                </nav>
+                {/* Navigation moved to Sidebar */}
+                <div className="hidden sm:block"></div>
             </div>
         </header>
     );

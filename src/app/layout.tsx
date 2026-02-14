@@ -3,6 +3,7 @@ import { Inter, Nunito } from "next/font/google";
 import { Suspense } from "react";
 import Script from "next/script";
 import "./globals.css";
+import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import YandexMetrika from "@/components/YandexMetrika";
@@ -101,8 +102,11 @@ export default function RootLayout({
         </Suspense>
 
         <Header />
-        <main className="relative z-10 min-h-screen">{children}</main>
-        <Footer />
+        <Sidebar />
+        <main className="relative z-10 min-h-screen pt-16 pl-14 md:pl-64 transition-[padding] duration-300">
+          {children}
+        </main>
+        <Footer className="pl-14 md:pl-64 transition-[padding] duration-300" />
       </body>
     </html>
   );

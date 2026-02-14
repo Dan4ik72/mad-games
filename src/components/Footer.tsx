@@ -1,6 +1,10 @@
-export default function Footer() {
+interface FooterProps {
+    className?: string;
+}
+
+export default function Footer({ className = "" }: FooterProps) {
     return (
-        <footer className="relative z-10 mt-20">
+        <footer className={`relative z-10 mt-20 ${className}`}>
             {/* Gradient divider */}
             <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 

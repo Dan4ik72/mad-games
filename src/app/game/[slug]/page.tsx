@@ -1,8 +1,10 @@
 import { getAllGames, getGameBySlug, getSimilarGames } from "@/lib/games";
+import { getCategoryBySlug } from "@/lib/categories";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import GamePlayerWrapper from "./GamePlayerWrapper";
 import SimilarGames from "@/components/SimilarGames";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 interface GamePageProps {
     params: Promise<{ slug: string }>;
@@ -27,13 +29,13 @@ export async function generateMetadata({
 
     return {
         title: `${game.title} — Играй онлайн`,
-        description: game.description,
+        description: game.shortDescription,
         alternates: {
             canonical: `/game/${slug}`,
         },
         openGraph: {
             title: `${game.title} — MAD GAMES`,
-            description: game.description,
+            description: game.shortDescription,
             url: `/game/${slug}`,
             images: [game.coverUrl],
             type: "website",
@@ -41,7 +43,7 @@ export async function generateMetadata({
         twitter: {
             card: "summary_large_image",
             title: `${game.title} — MAD GAMES`,
-            description: game.description,
+            description: game.shortDescription,
             images: [game.coverUrl],
         },
     };
@@ -57,18 +59,29 @@ export default async function GamePage({ params }: GamePageProps) {
 
     const similarGames = getSimilarGames(slug);
 
+    // Map category slugs to names for genre
+    const genres = game.categories
+        .map((slug) => getCategoryBySlug(slug)?.name)
+        .filter(Boolean);
+
     // Schema.org JSON-LD for VideoGame
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "VideoGame",
         name: game.title,
-        description: game.description,
+        description: game.shortDescription,
         url: `https://mad-games.ru/game/${game.slug}`,
         image: `https://mad-games.ru${game.coverUrl}`,
         playMode: "SinglePlayer",
         gamePlatform: "Web Browser",
         applicationCategory: "Game",
         operatingSystem: "Any",
+        genre: genres,
+        datePublished: game.publishedAt,
+        author: {
+            "@type": "Organization",
+            name: game.developer,
+        },
         offers: {
             "@type": "Offer",
             price: "0",
@@ -91,6 +104,16 @@ export default async function GamePage({ params }: GamePageProps) {
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Breadcrumbs */}
+                <div className="max-w-4xl mx-auto mb-4">
+                    <Breadcrumbs
+                        items={[
+                            { label: "Главная", href: "/" },
+                            { label: game.title },
+                        ]}
+                    />
+                </div>
+
                 {/* Game player section */}
                 <div className="flex justify-center mb-8">
                     <div className="w-full max-w-4xl">
