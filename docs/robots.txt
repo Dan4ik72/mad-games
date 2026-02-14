@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mad-games.ru/sitemap.xml
+Host: https://mad-games.ru
